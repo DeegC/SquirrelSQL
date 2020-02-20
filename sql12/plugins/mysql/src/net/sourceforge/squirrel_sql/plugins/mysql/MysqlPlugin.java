@@ -83,10 +83,11 @@ import net.sourceforge.squirrel_sql.plugins.mysql.tab.UserGrantsTab;
 import net.sourceforge.squirrel_sql.plugins.mysql.tokenizer.MysqlQueryTokenizer;
 import net.sourceforge.squirrel_sql.plugins.mysql.types.MySQL5ByteTypeDataTypeComponentFactory;
 import net.sourceforge.squirrel_sql.plugins.mysql.types.MySQLByteTypeDataTypeComponentFactory;
+import net.sourceforge.squirrel_sql.plugins.mysql.types.MySQLBinaryTypeDataTypeComponentFactory;
 
 /**
  * MySQL plugin class.
- * 
+ *
  * @author <A HREF="mailto:colbell@users.sourceforge.net">Colin Bell</A>
  */
 public class MysqlPlugin extends DefaultSessionPlugin
@@ -111,13 +112,13 @@ public class MysqlPlugin extends DefaultSessionPlugin
 	{
 		_resourcesFactory = resourcesFactory;
 	}
-	
+
 	public static interface IMenuResourceKeys
 	{
 		String CHECK_TABLE = "checktable";
 		String MYSQL = "mysql";
 	}
-	
+
    public static interface IKeys
    {
       String USERS_IMAGE = "users";
@@ -151,7 +152,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Return the internal name of this plugin.
-	 * 
+	 *
 	 * @return the internal name of this plugin.
 	 */
 	public String getInternalName()
@@ -161,9 +162,9 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Return the descriptive name of this plugin.
-	 * 
+	 *
 	 * @return the descriptive name of this plugin.
-	 * 
+	 *
 	 * @see net.sourceforge.squirrel_sql.client.plugin.IPlugin#getDescriptiveName()
 	 */
 	public String getDescriptiveName()
@@ -173,7 +174,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Returns the current version of this plugin.
-	 * 
+	 *
 	 * @return the current version of this plugin.
 	 */
 	public String getVersion()
@@ -183,7 +184,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Returns the authors name.
-	 * 
+	 *
 	 * @return the authors name.
 	 */
 	public String getAuthor()
@@ -193,14 +194,14 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Load this plugin.
-	 * 
+	 *
 	 * @param app
 	 *           Application API.
 	 */
 	public synchronized void load(IApplication app) throws PluginException
 	{
 		super.load(app);
-		_resources = _resourcesFactory.createResource(getClass().getName(), this); 			
+		_resources = _resourcesFactory.createResource(getClass().getName(), this);
       _objectTypes = new ObjectTypes(_resources);
    }
 
@@ -214,7 +215,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Retrieve the name of the help file.
-	 * 
+	 *
 	 * @return The nane of the help file.
 	 */
 	public String getHelpFileName()
@@ -224,7 +225,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Retrieve the name of the licence file.
-	 * 
+	 *
 	 * @return The nane of the licence file.
 	 */
 	public String getLicenceFileName()
@@ -234,7 +235,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Create panel for the Global Properties dialog.
-	 * 
+	 *
 	 * @return properties panel.
 	 */
 	public IGlobalPreferencesPanel[] getGlobalPreferencePanels()
@@ -284,17 +285,18 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 		_prefsManager = new PluginQueryTokenizerPreferencesManager();
 		_prefsManager.initialize(this, new MysqlPreferenceBean());
-		
+
       /* Register custom DataTypeComponent factory for MySQL TINYINT UNSIGNED type */
       CellComponentFactory.registerDataTypeFactory(new MySQLByteTypeDataTypeComponentFactory());
       /* Register custom DataTypeComponent factory for MySQL TINYINT UNSIGNED type */
       CellComponentFactory.registerDataTypeFactory(new MySQL5ByteTypeDataTypeComponentFactory());
+      CellComponentFactory.registerDataTypeFactory(new MySQLBinaryTypeDataTypeComponentFactory());
 
 	}
 
 	/**
 	 * Application is shutting down so save preferences.
-	 * 
+	 *
 	 * @see net.sourceforge.squirrel_sql.client.plugin.DefaultPlugin#unload()
 	 */
 	public void unload()
@@ -312,7 +314,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Session has been started. If this is a MySQL session then setup MySQL tabs etc.
-	 * 
+	 *
 	 * @param session
 	 *           Session that has started.
 	 * @return <TT>true</TT> if session is MySQL in which case this plugin is interested in it.
@@ -358,7 +360,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Returns true for any version of MySQL.
-	 * 
+	 *
 	 * @see net.sourceforge.squirrel_sql.client.plugin.DefaultSessionPlugin#
 	 *      isPluginSession(net.sourceforge.squirrel_sql.client.session.ISession)
 	 */
@@ -371,7 +373,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 	/**
 	 * Determines from the user's preference whether or not to install the custom query tokenizer, and if so
 	 * configure installs it.
-	 * 
+	 *
 	 * @param session
 	 *           the session to install the custom query tokenizer in.
 	 */
@@ -460,7 +462,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Create menu containing actions relevant for table nodes in the object tree.
-	 * 
+	 *
 	 * @return The menu object.
 	 */
 	private JMenu createMysqlTableMenu()
@@ -494,7 +496,7 @@ public class MysqlPlugin extends DefaultSessionPlugin
 
 	/**
 	 * Create menu containing all MYSQL actions.
-	 * 
+	 *
 	 * @return The menu object.
 	 */
 	private JMenu createFullMysqlMenu()
