@@ -1,3 +1,5 @@
+This is my clone of Squirrel SQL for creating my own MySql plugin.
+
 #SQuirreL SQL Client
 
 ## Build instructions
